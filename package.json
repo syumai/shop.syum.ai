@@ -1,7 +1,7 @@
 {
-  "name": "shop.ojisan.io",
+  "name": "shop.syum.ai",
   "version": "1.0.0",
-  "description": "おじさん's セレクトショップ",
+  "description": "syumai's セレクトショップ",
   "main": "index.js",
   "scripts": {
     "typecheck:ci": "tsc --noEmit",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sadnessOjisan/shop.ojisan.io.git"
+    "url": "git+https://github.com/syumai/shop.syum.ai.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sadnessOjisan/shop.ojisan.io/issues"
+    "url": "https://github.com/syumai/shop.syum.ai/issues"
   },
-  "homepage": "https://github.com/sadnessOjisan/shop.ojisan.io#readme",
+  "homepage": "https://github.com/syumai/shop.syum.ai#readme",
   "dependencies": {
     "markdown-it": "^12.1.0",
     "next": "^11.0.1",

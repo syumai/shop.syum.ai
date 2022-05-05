@@ -21,6 +21,7 @@ const TermPage: VFC = () => (
       <div className={aboutPageStyles.wrapper}>
         <h2 className={aboutPageStyles.midashi}>このサイトについて</h2>
         <p className={aboutPageStyles.text}>
+        {/* TODO: 直す */}
           <a
             href="https://twitter.com/sadnessOjisan"
             className={aboutPageStyles.link}
@@ -70,8 +71,8 @@ const TermPage: VFC = () => (
         <p className={aboutPageStyles.text}>
           そもそも通信販売サイトではありませんが、通信販売サイトであると仮定すると以下の通りとなります。
         </p>
-        <p className={aboutPageStyles.text}>URL: https://shop.ojisan.io</p>
-        <p className={aboutPageStyles.text}>EMail: konekoneko6789@gmail.com</p>
+        <p className={aboutPageStyles.text}>URL: https://shop.syum.ai</p>
+        <p className={aboutPageStyles.text}>EMail: syumai@gmail.com</p>
         <p className={aboutPageStyles.text}>
           販売価格: 各商品ページの参考価格に基づき、協議のもと決定する
         </p>
@@ -99,7 +100,7 @@ const TermPage: VFC = () => (
         <h2 className={aboutPageStyles.midashi}>プライバシーポリシー</h2>
         <p className={aboutPageStyles.text}>
           商談のため購入希望者の氏名・メールアドレス・LINE
-          IDを収集します。この収集した情報は、 shop.ojisan.io
+          IDを収集します。この収集した情報は、 shop.syum.ai
           における購入手続きの遂行以外に利用はいたしません。
         </p>
       </div>

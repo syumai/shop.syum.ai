@@ -8,7 +8,7 @@ export const Header = () => {
       <div className={headerStyle.innerWrapper}>
         <span className={headerStyle.title}>
           <Link href="/">
-            <a className={headerStyle.link}>shop.ojisan.io</a>
+            <a className={headerStyle.link}>shop.syum.ai</a>
           </Link>
         </span>
       </div>

@@ -12,17 +12,17 @@ export const Footer: VFC = () => (
       <p>
         created by{" "}
         <a
-          href="https://twitter.com/sadnessOjisan"
+          href="https://twitter.com/__syumai"
           className={footerStyle.link}
         >
-          @sadnessOjisan
+          syumai
         </a>
       </p>
       <p>This site use cookie for Google Analytics</p>
       <p>
         Source code is&nbsp;
         <a
-          href="https://github.com/sadnessOjisan/shop.ojisan.io"
+          href="https://github.com/syumai/shop.syum.ai"
           className={footerStyle.link}
         >
           here
