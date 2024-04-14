@@ -1,20 +1,15 @@
 # shop.syum.ai
 
-* [shop.ojisan.io](https://github.com/sadnessOjisan/shop.ojisan.io)をforkしました。
-* やる気が出たら作業します
+* fork of [shop.ojisan.io](https://github.com/sadnessOjisan/shop.ojisan.io).
 
-## DEV
+## Development
 
-```sh
-npm install
+### Prerequisite
 
-npm run dev
-```
+* buf
+  - see: https://connectrpc.com/docs/go/getting-started/#install-tools
 
-## DEPLOY
+### Generating code from Protobuf schema
 
-```sh
-npm run build
+* buf generate
 
-npm run export
-```
