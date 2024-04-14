@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package shop.v1;
+
+option go_package = "github.com/syumai/shop.syum.ai/api/gen/shop/v1;shopv1";
+
+message EchoRequest {
+  string msg = 1;
+}
+
+message EchoResponse {
+  string msg = 1;
+}
+
+service ShopService {
+  rpc Echo (EchoRequest) returns (EchoResponse);
+}
