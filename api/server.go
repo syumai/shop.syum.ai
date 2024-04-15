@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/bufbuild/connect-go"
+	"connectrpc.com/connect"
 	v1 "github.com/syumai/shop.syum.ai/api/gen/shop/v1"
 	"github.com/syumai/shop.syum.ai/api/gen/shop/v1/shopv1connect"
 )
