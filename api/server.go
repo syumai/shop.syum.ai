@@ -13,8 +13,11 @@ type ShopServer struct{}
 var _ shopv1connect.ShopServiceHandler = &ShopServer{}
 
 func (s *ShopServer) Echo(
-	context.Context,
-	*connect.Request[v1.EchoRequest],
+	_ context.Context,
+	req *connect.Request[v1.EchoRequest],
 ) (*connect.Response[v1.EchoResponse], error) {
-	return nil, nil
+	res := connect.NewResponse(&v1.EchoResponse{
+		Msg: req.Msg,
+	})
+	return res, nil
 }
