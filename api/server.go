@@ -17,7 +17,7 @@ func (s *ShopServer) Echo(
 	req *connect.Request[v1.EchoRequest],
 ) (*connect.Response[v1.EchoResponse], error) {
 	res := connect.NewResponse(&v1.EchoResponse{
-		Msg: req.Msg,
+		Msg: req.Msg.Msg,
 	})
 	return res, nil
 }
