@@ -11,11 +11,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/syumai/shop.syum.ai/api"
 	"github.com/syumai/shop.syum.ai/api/gen/shop/v1/shopv1connect"
 )
 
 func main() {
-	srv := &ShopServer{}
+	srv := &api.ShopServer{}
 	mux := http.NewServeMux()
 	path, handler := shopv1connect.NewShopServiceHandler(srv)
 	mux.Handle(path, handler)
