@@ -21,3 +21,21 @@ func (s *ShopServer) Echo(
 	})
 	return res, nil
 }
+
+func (s *ShopServer) CreateProduct(
+	_ context.Context,
+	req *connect.Request[v1.CreateProductRequest],
+) (*connect.Response[v1.CreateProductResponse], error) {
+	res := connect.NewResponse(&v1.CreateProductResponse{
+		Product: &v1.Product{
+			Id:            1,
+			Name:          "",
+			Description:   "",
+			ProductStatus: v1.ProductStatus_PRODUCT_STATUS_UNSPECIFIED,
+			CreatedTime:   nil,
+			UpdatedTime:   nil,
+			ReservedTime:  nil,
+		},
+	})
+	return res, nil
+}
