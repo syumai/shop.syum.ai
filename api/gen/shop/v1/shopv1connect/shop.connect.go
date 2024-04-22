@@ -35,17 +35,22 @@ const (
 const (
 	// ShopServiceEchoProcedure is the fully-qualified name of the ShopService's Echo RPC.
 	ShopServiceEchoProcedure = "/shop.v1.ShopService/Echo"
+	// ShopServiceCreateProductProcedure is the fully-qualified name of the ShopService's CreateProduct
+	// RPC.
+	ShopServiceCreateProductProcedure = "/shop.v1.ShopService/CreateProduct"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	shopServiceServiceDescriptor    = v1.File_shop_v1_shop_proto.Services().ByName("ShopService")
-	shopServiceEchoMethodDescriptor = shopServiceServiceDescriptor.Methods().ByName("Echo")
+	shopServiceServiceDescriptor             = v1.File_shop_v1_shop_proto.Services().ByName("ShopService")
+	shopServiceEchoMethodDescriptor          = shopServiceServiceDescriptor.Methods().ByName("Echo")
+	shopServiceCreateProductMethodDescriptor = shopServiceServiceDescriptor.Methods().ByName("CreateProduct")
 )
 
 // ShopServiceClient is a client for the shop.v1.ShopService service.
 type ShopServiceClient interface {
 	Echo(context.Context, *connect.Request[v1.EchoRequest]) (*connect.Response[v1.EchoResponse], error)
+	CreateProduct(context.Context, *connect.Request[v1.CreateProductRequest]) (*connect.Response[v1.CreateProductResponse], error)
 }
 
 // NewShopServiceClient constructs a client for the shop.v1.ShopService service. By default, it uses
@@ -64,12 +69,19 @@ func NewShopServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(shopServiceEchoMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		createProduct: connect.NewClient[v1.CreateProductRequest, v1.CreateProductResponse](
+			httpClient,
+			baseURL+ShopServiceCreateProductProcedure,
+			connect.WithSchema(shopServiceCreateProductMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // shopServiceClient implements ShopServiceClient.
 type shopServiceClient struct {
-	echo *connect.Client[v1.EchoRequest, v1.EchoResponse]
+	echo          *connect.Client[v1.EchoRequest, v1.EchoResponse]
+	createProduct *connect.Client[v1.CreateProductRequest, v1.CreateProductResponse]
 }
 
 // Echo calls shop.v1.ShopService.Echo.
@@ -77,9 +89,15 @@ func (c *shopServiceClient) Echo(ctx context.Context, req *connect.Request[v1.Ec
 	return c.echo.CallUnary(ctx, req)
 }
 
+// CreateProduct calls shop.v1.ShopService.CreateProduct.
+func (c *shopServiceClient) CreateProduct(ctx context.Context, req *connect.Request[v1.CreateProductRequest]) (*connect.Response[v1.CreateProductResponse], error) {
+	return c.createProduct.CallUnary(ctx, req)
+}
+
 // ShopServiceHandler is an implementation of the shop.v1.ShopService service.
 type ShopServiceHandler interface {
 	Echo(context.Context, *connect.Request[v1.EchoRequest]) (*connect.Response[v1.EchoResponse], error)
+	CreateProduct(context.Context, *connect.Request[v1.CreateProductRequest]) (*connect.Response[v1.CreateProductResponse], error)
 }
 
 // NewShopServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -94,10 +112,18 @@ func NewShopServiceHandler(svc ShopServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(shopServiceEchoMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	shopServiceCreateProductHandler := connect.NewUnaryHandler(
+		ShopServiceCreateProductProcedure,
+		svc.CreateProduct,
+		connect.WithSchema(shopServiceCreateProductMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/shop.v1.ShopService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ShopServiceEchoProcedure:
 			shopServiceEchoHandler.ServeHTTP(w, r)
+		case ShopServiceCreateProductProcedure:
+			shopServiceCreateProductHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -109,4 +135,8 @@ type UnimplementedShopServiceHandler struct{}
 
 func (UnimplementedShopServiceHandler) Echo(context.Context, *connect.Request[v1.EchoRequest]) (*connect.Response[v1.EchoResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("shop.v1.ShopService.Echo is not implemented"))
+}
+
+func (UnimplementedShopServiceHandler) CreateProduct(context.Context, *connect.Request[v1.CreateProductRequest]) (*connect.Response[v1.CreateProductResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("shop.v1.ShopService.CreateProduct is not implemented"))
 }

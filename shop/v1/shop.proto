@@ -4,6 +4,8 @@ package shop.v1;
 
 option go_package = "github.com/syumai/shop.syum.ai/api/gen/shop/v1;shopv1";
 
+import "google/protobuf/timestamp.proto";
+
 message EchoRequest {
   string msg = 1;
 }
@@ -13,13 +15,31 @@ message EchoResponse {
 }
 
 message CreateProductRequest {
-  string msg = 1;
+  string name = 1;
+  string description = 2;
 }
 
 message CreateProductResponse {
-  string msg = 1;
+  Product product = 1;
 }
- 
+
+message Product {
+  uint64 id = 1;
+  string name = 2;
+  string description = 3;
+  ProductStatus product_status = 4;
+  google.protobuf.Timestamp created_time = 5;
+  google.protobuf.Timestamp updated_time = 6;
+  google.protobuf.Timestamp reserved_time = 7;
+}
+
+enum ProductStatus {
+  PRODUCT_STATUS_UNSPECIFIED = 0;
+  PRODUCT_STATUS_LISTED = 1;
+  PRODUCT_STATUS_RESERVED = 2;
+  PRODUCT_STATUS_SOLD = 3;
+}
+
 service ShopService {
   rpc Echo (EchoRequest) returns (EchoResponse);
   rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse);
