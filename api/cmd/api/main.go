@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
@@ -13,10 +14,18 @@ import (
 
 	"github.com/syumai/shop.syum.ai/api"
 	"github.com/syumai/shop.syum.ai/api/gen/shop/v1/shopv1connect"
+	"github.com/syumai/shop.syum.ai/api/model"
 )
 
 func main() {
-	srv := &api.ShopServer{}
+	db, err := sql.Open("sqlite3", "file:db.sqlite")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	queries := model.New(db)
+	srv := api.NewShopServer(queries)
+
 	mux := http.NewServeMux()
 	path, handler := shopv1connect.NewShopServiceHandler(srv)
 	mux.Handle(path, handler)
