@@ -12,6 +12,15 @@ message EchoResponse {
   string msg = 1;
 }
 
+message CreateProductRequest {
+  string msg = 1;
+}
+
+message CreateProductResponse {
+  string msg = 1;
+}
+ 
 service ShopService {
   rpc Echo (EchoRequest) returns (EchoResponse);
+  rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse);
 }
