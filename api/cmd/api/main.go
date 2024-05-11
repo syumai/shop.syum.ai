@@ -2,51 +2,34 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
-	"github.com/syumai/shop.syum.ai/api"
-	"github.com/syumai/shop.syum.ai/api/gen/shop/v1/shopv1connect"
+	"github.com/syumai/shop.syum.ai/api/server"
+	"golang.org/x/sync/errgroup"
 )
 
 func main() {
-	srv := &api.ShopServer{}
-	mux := http.NewServeMux()
-	path, handler := shopv1connect.NewShopServiceHandler(srv)
-	mux.Handle(path, handler)
-
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	addr := fmt.Sprintf(":%s", port)
-	s := http.Server{
-		Addr:              addr,
-		Handler:           mux,
-		ReadHeaderTimeout: time.Second,
-		ReadTimeout:       5 * time.Minute,
-		WriteTimeout:      5 * time.Minute,
-		MaxHeaderBytes:    8 * 1024, // 8KiB
-	}
+	s := server.New(port)
 
-	go func() {
-		<-ctx.Done()
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		s.Shutdown(ctx)
-	}()
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 
-	fmt.Printf("listening server on %s\n", addr)
-	if err := s.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
-		log.Fatal(err)
+	eg, egCtx := errgroup.WithContext(ctx)
+	eg.Go(s.Start)
+	eg.Go(func() error {
+		<-egCtx.Done()
+		return s.Stop()
+	})
+
+	if err := eg.Wait(); err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 }
