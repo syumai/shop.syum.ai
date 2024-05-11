@@ -15,7 +15,7 @@ type testFunc func(t *testing.T, ctx context.Context, client shopv1connect.ShopS
 func RunTest(t *testing.T, testFunc testFunc) {
 	mux := http.NewServeMux()
 	mux.Handle(shopv1connect.NewShopServiceHandler(
-		&api.ShopServer{},
+		&api.ShopService{},
 	))
 	server := httptest.NewServer(mux)
 	defer server.Close()

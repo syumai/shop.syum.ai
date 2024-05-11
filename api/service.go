@@ -8,11 +8,11 @@ import (
 	"github.com/syumai/shop.syum.ai/api/gen/shop/v1/shopv1connect"
 )
 
-type ShopServer struct{}
+type ShopService struct{}
 
-var _ shopv1connect.ShopServiceHandler = &ShopServer{}
+var _ shopv1connect.ShopServiceHandler = &ShopService{}
 
-func (s *ShopServer) Echo(
+func (s *ShopService) Echo(
 	_ context.Context,
 	req *connect.Request[v1.EchoRequest],
 ) (*connect.Response[v1.EchoResponse], error) {

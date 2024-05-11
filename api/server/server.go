@@ -16,9 +16,9 @@ type Server struct {
 }
 
 func New(port string) *Server {
-	shopSrv := &api.ShopServer{}
+	svc := &api.ShopService{}
 	mux := http.NewServeMux()
-	path, handler := shopv1connect.NewShopServiceHandler(shopSrv)
+	path, handler := shopv1connect.NewShopServiceHandler(svc)
 	mux.Handle(path, handler)
 	addr := fmt.Sprintf(":%s", port)
 	srv := http.Server{
